@@ -8,8 +8,6 @@ import ru.neostudy.apiservice.model.UpdateStatementDto;
 import java.util.List;
 
 public interface AdminService {
-    void setActivePeriod(@Valid ActivePeriod activePeriod);
-
     void updateStatementStatus(UpdateStatementDto statementDto) throws Exception;
 
     StatementFullDto getCompleteStatementById(Integer id) throws Exception;

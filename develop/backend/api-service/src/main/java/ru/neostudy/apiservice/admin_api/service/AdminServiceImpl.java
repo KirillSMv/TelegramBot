@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
     private final DataStorageClient dataStorageClient;
-    private final UpdateService updateService;
 
     @Override
     public void updateStatementStatus(UpdateStatementDto statementDto) throws Exception {
@@ -33,8 +32,4 @@ public class AdminServiceImpl implements AdminService {
         return dataStorageClient.getCompleteStatements();
     }
 
-    @Override
-    public void setActivePeriod(ActivePeriod activePeriod) {
-        updateService.setActivePeriod(activePeriod);
-    }
 }

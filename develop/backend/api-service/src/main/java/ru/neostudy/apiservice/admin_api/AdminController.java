@@ -19,13 +19,6 @@ import java.util.List;
 public class AdminController {
     private final AdminService adminService;
 
-    @PostMapping("/set/period")
-    @Tag(name = "задание периода подачи заявок",
-            description = "админ указывает даты начала и конца периода подачи заявок")
-    public void setActivePeriod(@RequestBody @Valid ActivePeriod activePeriod) {
-        adminService.setActivePeriod(activePeriod);
-    }
-
     @PutMapping("/statement_status")
     @Tag(name = "Обновление статуса заявки",
             description = "Обновление статуса заявки по statement_id" +

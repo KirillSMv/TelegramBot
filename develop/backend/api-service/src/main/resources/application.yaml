@@ -3,7 +3,7 @@ server:
 
 bot:
   name: ${TG_BOT_NAME:hakatonTG_bot}
-  token: ${TG_BOT_TOKEN:7083829801:AAGiKATQRCVmbz5g8XYdV7P5kk174qwVna8}
+  token: ${TG_BOT_TOKEN}
 
 logging:
   level:

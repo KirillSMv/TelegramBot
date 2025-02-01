@@ -41,35 +41,33 @@ public class UpdateService {
     private static boolean isActivePeriod = false;
     private static boolean wasNotified = false;
     private final ConcurrentMap<Long, BotUser> users = new ConcurrentHashMap<>();
-    private ActivePeriod activePeriod;
 
     public void registerBot(TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
         setCourses();
     }
 
-    public void setActivePeriod(ActivePeriod activePeriod) {
-        this.activePeriod = activePeriod;
+    @Scheduled(fixedRate = 45000, initialDelay = 45000)
+    private void openRequests() {
+        log.info("openRequests");
+        isActivePeriod = true;
+        wasNotified = false;
     }
 
-    @Scheduled(fixedRate = 259200000)
+    @Scheduled(fixedRate = 45000, initialDelay = 60000)
+    private void closeRequests() {
+        log.info("closeRequests");
+        isActivePeriod = false;
+        wasNotified = false;
+    }
+
+    @Scheduled(fixedRate = 16000)
     public void checkPeriod() {
-        if (activePeriod == null) {
-            return;
-        }
-        LocalDate now = LocalDate.now();
-        boolean checkIfActivePeriod = now.isEqual(activePeriod.getStartDate()) || now.isEqual(activePeriod.getEndDate())
-                || (now.isAfter(activePeriod.getStartDate()) && now.isBefore(activePeriod.getEndDate()));
-        if (checkIfActivePeriod && !wasNotified) {
+        if (isActivePeriod && !wasNotified) {
             sendNotifications();
             wasNotified = true;
             log.info("Период сбора заявок открыт");
         }
-        if (!checkIfActivePeriod && isActivePeriod) {
-            wasNotified = false;
-            log.info("Период сбора заявок завершен");
-        }
-        isActivePeriod = checkIfActivePeriod;
     }
 
     private void sendNotifications() {
