@@ -1,12 +1,10 @@
 package ru.neostudy.apiservice.admin_api;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.neostudy.apiservice.admin_api.service.AdminService;
-import ru.neostudy.apiservice.model.ActivePeriod;
 import ru.neostudy.apiservice.model.StatementFullDto;
 import ru.neostudy.apiservice.model.UpdateStatementDto;
 
@@ -37,7 +35,7 @@ public class AdminController {
     @GetMapping("/statements")
     @Tag(name = "Просмотр списка всех заявок",
             description = "Просмотр списка всех заявок с детальной информацией о заявке с данными пользователя и направлением")
-    public List<StatementFullDto> getCompleteStatements() throws Exception {
+    public List<StatementFullDto> getCompleteStatements() {
         return adminService.getCompleteStatements();
     }
 }

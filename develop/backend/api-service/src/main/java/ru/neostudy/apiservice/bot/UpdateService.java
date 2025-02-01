@@ -12,7 +12,6 @@ import ru.neostudy.apiservice.bot.enums.UserAction;
 import ru.neostudy.apiservice.bot.enums.UserState;
 import ru.neostudy.apiservice.bot.utils.MessageUtils;
 import ru.neostudy.apiservice.client.interfaces.DataStorageClient;
-import ru.neostudy.apiservice.model.ActivePeriod;
 import ru.neostudy.apiservice.model.BotUser;
 import ru.neostudy.apiservice.model.User;
 import ru.neostudy.apiservice.model.UserDto;
@@ -20,7 +19,6 @@ import ru.neostudy.apiservice.model.enums.Role;
 import ru.neostudy.apiservice.model.mapper.UserDtoMapper;
 import ru.neostudy.apiservice.model.validation.AppUserValidator;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +69,7 @@ public class UpdateService {
     }
 
     private void sendNotifications() {
-        List<User> usersList = null;
+        List<User> usersList;
         try {
             usersList = dataStorageClient.getUsersWithoutCourse();
         } catch (Exception e) {
@@ -110,7 +108,7 @@ public class UpdateService {
         log.debug("Вызов метода processServiceCommand с командой {}, telegramId = {}", serviceCommand, update.getMessage().getFrom().getId());
         return switch (serviceCommand) {
             case START -> processStartCommand(update);
-            case HELP -> processHelpCommand(update);
+            case HELP -> processHelpCommand();
             case SUBMIT_PREREQUEST -> processSubmitPrerequest(update);
             case SUBMIT_REQUEST -> processSubmitRequest(update);
             case CHOOSE_COURSE -> processChoosingCourse(update);
@@ -262,7 +260,7 @@ public class UpdateService {
         botUser.setState(UserState.COMPLETE);
         botUser.setRole(Role.CANDIDATE);
         users.put(botUser.getTelegramUserId(), botUser);
-        String output = "";
+        String output;
         if (botUser.getAction() == UserAction.SUBMIT_PREREQUEST) {
             output = processWhenSubmitPrerequest(botUser);
         } else {
@@ -457,7 +455,7 @@ public class UpdateService {
         return getStartMessage();
     }
 
-    private String processHelpCommand(Update update) {
+    private String processHelpCommand() {
         return help();
     }
 
